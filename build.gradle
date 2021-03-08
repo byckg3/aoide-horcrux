@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+version '1.0-SNAPSHOT'
+
+def GROOVY_VERSION = "3.0.7"
+def JUNIT5_VERSION = "5.7.0"
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "com.h2database:h2:1.4.200"
+
+    // testImplementation "org.junit.jupiter:junit-jupiter-api:${JUNIT5_VERSION}"
+    // testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${JUNIT5_VERSION}"
+}
+
+application {
+    mainClass = 'aoide.model.member.JdbcMemberDAO' 
+}
+
+test {
+    // enable JUnit Platform (a.k.a. JUnit 5) support
+    useJUnitPlatform {
+        // includeTags 'commandOption'
+    }
+    // show standard out and standard error of the test JVM(s) on the console
+    testLogging {
+        showStandardStreams = true
+        events 'PASSED', 'FAILED', 'SKIPPED'
+    }
+    // Fail the 'test' task on the first test failure
+    failFast = true
+
+    afterSuite { desc, result ->
+        if ( !desc.parent ) {
+            println "\nTest result: ${result.resultType}"
+            println "Test summary: ${result.testCount} tests, " +
+                    "${result.successfulTestCount} passed, " +
+                    "${result.failedTestCount} failed, " +
+                    "${result.skippedTestCount} skipped"
+        }
+    }
+}
