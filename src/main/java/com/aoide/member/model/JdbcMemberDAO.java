@@ -1,6 +1,5 @@
-package aoide.model.member;
+package com.aoide.member.model;
 
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.PreparedStatement;

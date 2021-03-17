@@ -16,13 +16,38 @@ repositories {
 
 dependencies {
     implementation "com.h2database:h2:1.4.200"
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    
+    // https://mvnrepository.com/artifact/javax.validation/validation-api
+    implementation 'javax.validation:validation-api:2.0.1.Final'
 
-    // testImplementation "org.junit.jupiter:junit-jupiter-api:${JUNIT5_VERSION}"
-    // testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${JUNIT5_VERSION}"
+    // https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
+    runtimeOnly 'org.hibernate.validator:hibernate-validator:6.2.0.Final'
+    
+    // https://mvnrepository.com/artifact/org.glassfish/javax.el
+    runtimeOnly 'org.glassfish:javax.el:3.0.1-b12'
+
+    testImplementation "org.junit.jupiter:junit-jupiter:${JUNIT5_VERSION}"
 }
 
-application {
-    mainClass = 'aoide.model.member.JdbcMemberDAO' 
+compileJava.options.encoding = 'UTF-8'
+
+// application {
+//     mainClass = 'aoide.model.member.MemberService'
+// }
+
+sourceSets {
+    // compiling with the groovy plugin will also compile the java classes
+    main {
+        java {
+            srcDirs = [ 'src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = [ 'src/test/java' ]
+        }
+    }
 }
 
 test {
@@ -47,4 +72,10 @@ test {
                     "${result.skippedTestCount} skipped"
         }
     }
+}
+
+task deploy( type: Exec ) {
+
+    commandLine 'cmd', 'xcopy W:\\aoide-split\\webapp W:\\apache-tomcat-10.0.2\\webapps\\aoide /S'
+    commandLine 'cmd', 'xcopy W:\\aoide-split\\build\\classes\\java\\main W:\\apache-tomcat-10.0.2\\webapps\\aoide\\WEB-INF\\classes /S'
 }
