@@ -5,6 +5,8 @@
 
 	<display-name>Aoide</display-name>
 
+	<request-character-encoding>UTF-8</request-character-encoding>
+
 	<welcome-file-list>
 		<welcome-file>login.html</welcome-file>
 	</welcome-file-list>
@@ -35,6 +37,6 @@
 		<error-code>404</error-code>
 		<location>/error.jsp</location>
 	</error-page> -->
-  
+	
 
 </web-app>

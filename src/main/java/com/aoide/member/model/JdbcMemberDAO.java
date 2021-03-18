@@ -163,9 +163,18 @@ public class JdbcMemberDAO implements MemberDAO
 
 	private Connection getConnection() throws SQLException
 	{
-		String currentDir = System.getProperty( "user.dir" );
-		return DriverManager.getConnection( "jdbc:h2:tcp://localhost/" + currentDir + "/aoide", "admin", "admin" );
-		//return dataSource.getConnection();
+		try
+		{
+            if ( dataSource != null )
+			{
+				return dataSource.getConnection();
+			}
+			String currentDir = System.getProperty( "user.dir" );
+			return DriverManager.getConnection( "jdbc:h2:tcp://localhost/" + currentDir + "/aoide", "admin", "admin" );
+        }
+		catch ( SQLException e ) {
+			throw e;
+        }
 	}
 	
 	public static void main(String[] args) {

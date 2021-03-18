@@ -2,7 +2,8 @@ bin
 build
 *.bat
 *.trace.db
-.gradle
+*.prefs
 .project
+.gradle
 .vscode
 .classpath

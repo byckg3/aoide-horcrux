@@ -24,7 +24,7 @@ public class MemberVOTests
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
-
+    
     @BeforeEach
     void setUp() {
         member = new MemberVO();
@@ -34,30 +34,29 @@ public class MemberVOTests
         member.setEmail( "alex@gmail.com" );
     }
 
-    @Test
-    public void test_validMemberInfo()
+//     @Test
+//     public void test_validMemberInfo()
+//     {
+        
+//     }
+
+//     @Test
+//     public void test_accountCannotBeNull()
+//     {
+        
+        
+//     }
+
+//    @Test
+//     public void test_email()
+//     {
+        
+//     }
+
+    private void printError()
     {
-        constraintViolations = validator.validate( member );
-        assertEquals( 0, constraintViolations.size() );
+        for ( ConstraintViolation< MemberVO > violation : constraintViolations ) {
+            System.out.println( violation.getMessage() ); 
+        }
     }
-
-    @Test
-    public void test_accountCannotBeNull()
-    {
-        member.setAccount( null );
-        constraintViolations = validator.validate( member );
-        assertEquals( 1, constraintViolations.size() );
-        
-        member.setAccount( "" );
-        constraintViolations = validator.validate( member );
-        assertEquals( 2, constraintViolations.size() );
-
-        member.setAccount( "1234" );
-        constraintViolations = validator.validate( member );
-        assertEquals( 1, constraintViolations.size() );
-        
-        // for ( ConstraintViolation< MemberVO > violation : constraintViolations ) {
-        //     System.out.println( violation.getMessage() ); 
-        // }
-   }
 }
