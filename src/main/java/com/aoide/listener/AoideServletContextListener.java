@@ -15,8 +15,9 @@ import javax.sql.DataSource;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
+import com.aoide.member.model.AoideDAO;
 import com.aoide.member.model.JdbcMemberDAO;
-import com.aoide.member.model.MemberDAO;
+import com.aoide.member.model.Member;
 import com.aoide.member.model.MemberService;
 
 @WebListener
@@ -31,7 +32,7 @@ public class AoideServletContextListener implements ServletContextListener
 		String dsJNDIName = context.getInitParameter( "DATA_SOURCE_JNDI_NAME" );
 		DataSource dataSource = createDataSource( dsJNDIName );
 
-		MemberDAO memberDao = new JdbcMemberDAO( dataSource );  
+		AoideDAO< Member > memberDao = new JdbcMemberDAO( dataSource );  
     	context.setAttribute( "memberService", new MemberService( memberDao ) );
 
 		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();

@@ -5,9 +5,9 @@ import java.util.Optional;
 
 public class MemberService
 {
-	private MemberDAO dao;
+	private AoideDAO< Member > dao;
 
-	public MemberService( MemberDAO dao )
+	public MemberService( AoideDAO< Member > dao )
 	{
 		this.dao = dao;
 	}
@@ -22,38 +22,17 @@ public class MemberService
 		return dao.update( vo );
 	}
 	
-	public int deleteMemberAccount( String account ) {
-		return dao.delete( account );
+	public int deleteMemberProfile( Long id ) {
+		return dao.delete( id );
 	}
 	
-	public Optional< Member > findMemberProfile( String account )
+	public Optional< Member > findMemberProfile( Long id )
 	{
-		return dao.findByAccount( account );
+		return dao.findByPrimaryKey( id );
 	}
 	
 	public List< Member > getAllMemberProfiles()
 	{
 		return dao.getAll();
 	}
-
-	public static void main( String[] args ) 
-	{
-		Member m = new Member();
-		
-		m.setAccount( "smallBirdBeauty" );
-		m.setPassword( "28825252" );
-		m.setName( "小鳥美麗" );
-		m.setEmail( "fattyCutty@outlook.com" );
-		
-		MemberService ms = new MemberService( new JdbcMemberDAO() );
-		
-		System.out.println( ms.createMemberAccount( m ) );
-		System.out.println( ms.updateMemberProfile( m ) );
-		// System.out.println( ms.findMemberProfile( "whiteBirdBeauty" ) );
-
-		
-		System.out.println( ms.getAllMemberProfiles() );
-		System.out.println( ms.deleteMemberAccount( "smallBirdBeauty" ) );
-	}
-
 }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JdbcMemberDAO implements MemberDAO
+public class JdbcMemberDAO implements AoideDAO< Member >
 {  
 	private static final String INSERT_STMT = 
 		"INSERT INTO members( account, password, name, email ) VALUES ( ?, ?, ?, ? )";
@@ -22,20 +22,32 @@ public class JdbcMemberDAO implements MemberDAO
 		"UPDATE members SET password = ?, name = ?, email = ? WHERE account = ?";
 		
 	private static final String DELETE_STMT = 
-		"DELETE FROM members WHERE account = ?";
+		"DELETE FROM members WHERE id = ?";
 		
 	private static final String GET_ONE_STMT = 
-		"SELECT * FROM members WHERE account = ?";
+		"SELECT * FROM members WHERE id = ?";
 		
 	private static final String GET_ALL_STMT = 
 		"SELECT * FROM members";
 	
 	private DataSource dataSource;
+
+	private String url;
+	private String user;
+	private String password;
 	
 	public JdbcMemberDAO() {}
 
-	public JdbcMemberDAO( DataSource dataSource ) {
+	public JdbcMemberDAO( DataSource dataSource )
+	{
 		this.dataSource = dataSource;
+	}
+
+	public JdbcMemberDAO( String jdbcUrl, String userName, String password )
+	{
+		this.url = jdbcUrl;
+		this.user = userName;
+		this.password = password;
 	}
 	
 	@Override
@@ -88,14 +100,14 @@ public class JdbcMemberDAO implements MemberDAO
 	}
 
 	@Override
-	public int delete( String account )
+	public int delete( Object pk )
 	{
 		int deletedRowCount = 0;
 		
 		try( Connection conn = getConnection();
 			 PreparedStatement pstmt = conn.prepareStatement( DELETE_STMT ) )
 		{
-			pstmt.setString( 1, account );
+			pstmt.setObject( 1, pk );
 			deletedRowCount = pstmt.executeUpdate();
 
 			return deletedRowCount;
@@ -106,12 +118,12 @@ public class JdbcMemberDAO implements MemberDAO
 	}
 
 	@Override
-	public Optional< Member > findByAccount( String account )
+	public Optional< Member > findByPrimaryKey( Object pk )
 	{
 		try( Connection conn = getConnection();
 			 PreparedStatement pstmt = conn.prepareStatement( GET_ONE_STMT ) )
 		{
-			pstmt.setString( 1, account );
+			pstmt.setObject( 1, pk );
 
 			ResultSet rs = pstmt.executeQuery();
 			if ( rs.next() ) 
@@ -159,6 +171,19 @@ public class JdbcMemberDAO implements MemberDAO
         }
 	}
 
+	public boolean canConnect()
+	{
+		try( Connection conn = DriverManager.getConnection( url, user, password ) )
+		{
+			return true;
+		}
+		catch ( SQLException e )
+		{
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 	private Connection getConnection() throws SQLException
 	{
 		try
@@ -167,41 +192,12 @@ public class JdbcMemberDAO implements MemberDAO
 			{
 				return dataSource.getConnection();
 			}
-			String currentDir = System.getProperty( "user.dir" );
-			System.out.println( "no data source object..." );
-			return DriverManager.getConnection( "jdbc:h2:tcp://localhost/" + currentDir + "/aoide", "admin", "admin" );
+			System.out.println( "no data source..." );
+
+			return DriverManager.getConnection( url, user, password );
         }
 		catch ( SQLException e ) {
 			throw e;
         }
-	}
-	
-	public static void main(String[] args) {
-
-		Member newVo = new Member();
-
-		newVo.setAccount( "test012" );
-		newVo.setPassword( "abcde" );
-		newVo.setName( "Curry" );
-		newVo.setEmail( "curry02@email.com" );
-
-		try
-		{
-			JdbcMemberDAO dao = new JdbcMemberDAO();
-
-			List< Member > list = dao.getAll();
-			for ( Member vo : list )
-			{
-				System.out.println( vo.toString() );
-			}
-
-			Optional< Member > optionalMember = dao.findByAccount( "test012" );
-			System.out.println( optionalMember.get() );
-		}
-		catch( Exception e )
-		{
-			e.printStackTrace();
-		}
-	
 	}
 }
