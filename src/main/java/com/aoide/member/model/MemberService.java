@@ -12,13 +12,13 @@ public class MemberService
 		this.dao = dao;
 	}
 	
-	public MemberVO createMemberAccount( MemberVO vo )
+	public Member createMemberAccount( Member vo )
 	{
 		dao.create( vo );
 		return vo;
 	}
 	
-	public int updateMemberProfile( MemberVO vo ) {
+	public int updateMemberProfile( Member vo ) {
 		return dao.update( vo );
 	}
 	
@@ -26,19 +26,19 @@ public class MemberService
 		return dao.delete( account );
 	}
 	
-	public Optional< MemberVO > findMemberProfile( String account )
+	public Optional< Member > findMemberProfile( String account )
 	{
 		return dao.findByAccount( account );
 	}
 	
-	public List< MemberVO > getAllMemberProfiles()
+	public List< Member > getAllMemberProfiles()
 	{
 		return dao.getAll();
 	}
 
 	public static void main( String[] args ) 
 	{
-		MemberVO m = new MemberVO();
+		Member m = new Member();
 		
 		m.setAccount( "smallBirdBeauty" );
 		m.setPassword( "28825252" );

@@ -16,33 +16,32 @@ import java.util.Optional;
 public class JdbcMemberDAO implements MemberDAO
 {  
 	private static final String INSERT_STMT = 
-		"INSERT INTO member( account, password, name, email ) VALUES ( ?, ?, ?, ? )";
+		"INSERT INTO members( account, password, name, email ) VALUES ( ?, ?, ?, ? )";
 		
 	private static final String UPDATE_STMT = 
-		"UPDATE member SET password = ?, name = ?, email = ? WHERE account = ?";
+		"UPDATE members SET password = ?, name = ?, email = ? WHERE account = ?";
 		
 	private static final String DELETE_STMT = 
-		"DELETE FROM member WHERE account = ?";
+		"DELETE FROM members WHERE account = ?";
 		
 	private static final String GET_ONE_STMT = 
-		"SELECT * FROM member WHERE account = ?";
+		"SELECT * FROM members WHERE account = ?";
 		
 	private static final String GET_ALL_STMT = 
-		"SELECT * FROM member";
+		"SELECT * FROM members";
 	
 	private DataSource dataSource;
 	
 	public JdbcMemberDAO() {}
 
-	public JdbcMemberDAO( DataSource dataSource )
-	{
+	public JdbcMemberDAO( DataSource dataSource ) {
 		this.dataSource = dataSource;
 	}
 	
 	@Override
-	public int create( MemberVO vo ) 
+	public int create( Member vo ) 
 	{
-		int insertedRowCount = 0, id = -1;
+		int insertedRowCount = 0;
 		
 		try( Connection conn = getConnection();
 			 PreparedStatement pstmt = conn.prepareStatement( INSERT_STMT, Statement.RETURN_GENERATED_KEYS ) )
@@ -57,8 +56,7 @@ public class JdbcMemberDAO implements MemberDAO
 			ResultSet keys = pstmt.getGeneratedKeys();
 			if ( keys.next() ) 
 			{
-				id = (Integer) keys.getInt(1);
-				vo.setId( id );
+				vo.setId( keys.getLong( 1 ) );
 			}
 			return insertedRowCount;
 		}
@@ -68,7 +66,7 @@ public class JdbcMemberDAO implements MemberDAO
 	}
 
 	@Override
-	public int update( MemberVO vo )
+	public int update( Member vo )
 	{
 		int updatedRowCount = 0;
 		
@@ -108,7 +106,7 @@ public class JdbcMemberDAO implements MemberDAO
 	}
 
 	@Override
-	public Optional< MemberVO > findByAccount( String account )
+	public Optional< Member > findByAccount( String account )
 	{
 		try( Connection conn = getConnection();
 			 PreparedStatement pstmt = conn.prepareStatement( GET_ONE_STMT ) )
@@ -118,8 +116,8 @@ public class JdbcMemberDAO implements MemberDAO
 			ResultSet rs = pstmt.executeQuery();
 			if ( rs.next() ) 
 			{
-				MemberVO vo = new MemberVO();
-				vo.setId( rs.getInt( "id" ) );
+				Member vo = new Member();
+				vo.setId( rs.getLong( "id" ) );
 				vo.setAccount( rs.getString( "account" ) );
 				vo.setPassword( rs.getString( "password" ) );
 				vo.setName( rs.getString( "name" ) );
@@ -135,9 +133,9 @@ public class JdbcMemberDAO implements MemberDAO
 	}
 
 	@Override
-	public List< MemberVO > getAll()
+	public List< Member > getAll()
 	{
-		List< MemberVO > voList = new ArrayList<>();
+		List< Member > voList = new ArrayList<>();
 
 		try( Connection conn = getConnection();
 			 PreparedStatement pstmt = conn.prepareStatement( GET_ALL_STMT );
@@ -145,8 +143,8 @@ public class JdbcMemberDAO implements MemberDAO
 		{
 			while ( rs.next() ) 
 			{
-				MemberVO vo = new MemberVO();
-				vo.setId( rs.getInt( "id" ) );
+				Member vo = new Member();
+				vo.setId( rs.getLong( "id" ) );
 				vo.setAccount( rs.getString( "account" ) );
 				vo.setPassword( rs.getString( "password" ) );
 				vo.setName( rs.getString( "name" ) );
@@ -170,6 +168,7 @@ public class JdbcMemberDAO implements MemberDAO
 				return dataSource.getConnection();
 			}
 			String currentDir = System.getProperty( "user.dir" );
+			System.out.println( "no data source object..." );
 			return DriverManager.getConnection( "jdbc:h2:tcp://localhost/" + currentDir + "/aoide", "admin", "admin" );
         }
 		catch ( SQLException e ) {
@@ -179,7 +178,7 @@ public class JdbcMemberDAO implements MemberDAO
 	
 	public static void main(String[] args) {
 
-		MemberVO newVo = new MemberVO();
+		Member newVo = new Member();
 
 		newVo.setAccount( "test012" );
 		newVo.setPassword( "abcde" );
@@ -190,13 +189,13 @@ public class JdbcMemberDAO implements MemberDAO
 		{
 			JdbcMemberDAO dao = new JdbcMemberDAO();
 
-			List< MemberVO > list = dao.getAll();
-			for ( MemberVO vo : list )
+			List< Member > list = dao.getAll();
+			for ( Member vo : list )
 			{
 				System.out.println( vo.toString() );
 			}
 
-			Optional< MemberVO > optionalMember = dao.findByAccount( "test012" );
+			Optional< Member > optionalMember = dao.findByAccount( "test012" );
 			System.out.println( optionalMember.get() );
 		}
 		catch( Exception e )

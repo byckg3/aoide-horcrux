@@ -23,7 +23,7 @@ import javax.validation.ValidatorFactory;
 
 import com.aoide.member.model.JdbcMemberDAO;
 import com.aoide.member.model.MemberService;
-import com.aoide.member.model.MemberVO;
+import com.aoide.member.model.Member;
 
 
 @WebServlet( "/login" )
@@ -43,10 +43,11 @@ public class LoginServlet extends HttpServlet
 
 		if ( constraintViolations.isEmpty() && canLogin( form, memberService ) )
 		{
-			MemberVO memberProfile = memberService.findMemberProfile( form.getAccount() ).get();
+			Member memberProfile = memberService.findMemberProfile( form.getAccount() ).get();
 			
 			request.getSession().setAttribute( "member", memberProfile );
-			response.sendRedirect( "welcome.html" );
+			//response.sendRedirect( "WEB-INF/welcome.jsp" );
+			request.getRequestDispatcher( "WEB-INF/welcome.jsp" ).forward( request, response );
 			System.out.println( "Login successfully" );
 			return;
 		}
@@ -66,10 +67,10 @@ public class LoginServlet extends HttpServlet
 
 	private boolean canLogin( LoginForm form, MemberService memberService )
 	{
-		Optional< MemberVO > optionalMember = memberService.findMemberProfile( form.getAccount() );
+		Optional< Member > optionalMember = memberService.findMemberProfile( form.getAccount() );
 		if ( optionalMember.isPresent() )
 		{
-			MemberVO memberProfile = optionalMember.get();
+			Member memberProfile = optionalMember.get();
 			return memberProfile.getPassword().equals( form.getPassword() );
 		}
 		return false;

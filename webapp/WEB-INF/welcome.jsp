@@ -5,6 +5,6 @@
 	<title>Aoide</title>
 </head>
 <body>
-	<h1>welcome</h1>
+	<h1>welcome, ${sessionScope.member.name}</h1>
 </body>
 </html>

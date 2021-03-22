@@ -28,7 +28,9 @@ public class AoideServletContextListener implements ServletContextListener
 	{ 
     	ServletContext context = event.getServletContext();
 
-		DataSource dataSource = createDataSource();
+		String dsJNDIName = context.getInitParameter( "DATA_SOURCE_JNDI_NAME" );
+		DataSource dataSource = createDataSource( dsJNDIName );
+
 		MemberDAO memberDao = new JdbcMemberDAO( dataSource );  
     	context.setAttribute( "memberService", new MemberService( memberDao ) );
 
@@ -38,14 +40,14 @@ public class AoideServletContextListener implements ServletContextListener
         System.out.println( "Context Initialized...");
     }
 
-    private DataSource createDataSource()
+    private DataSource createDataSource( String dataSourceJNDIName )
     {
     	try
         {
         	Context initContext = new InitialContext();
         	Context envContext = ( Context ) initContext.lookup( "java:/comp/env" );
-
-        	return ( DataSource ) envContext.lookup("jdbc/aoide");
+			
+        	return ( DataSource ) envContext.lookup( dataSourceJNDIName );
         }
         catch ( NamingException e ) {
         	e.printStackTrace();

@@ -1,19 +1,37 @@
 package com.aoide.member.model;
 
-public class MemberVO implements java.io.Serializable
+import javax.persistence.*;
+
+@Entity
+@Table( name = "members" )
+public class Member implements java.io.Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;
+	@Id
+	@GeneratedValue( strategy = GenerationType.AUTO )
+	@Column( name = "id" )
+	private Long id;
+
+	@Column( name = "account", unique = true )
 	private String account;
+
+	@Column( name = "password" )
 	private String password;
+
+	@Column( name = "name" )
 	private String name;
+
+	@Column( name = "email" )
 	private String email;
 	
-	public Integer getId() {
+	@Column( name = "salt", nullable = true )
+	private String salt;
+
+	public Long getId() {
 		return id;
 	}
-	public void setId( Integer memberId) {
+	public void setId( Long memberId) {
 		this.id = memberId;
 	}
 	
@@ -43,6 +61,13 @@ public class MemberVO implements java.io.Serializable
 	}
 	public void setEmail( String email ) {
 		this.email = email;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+	public void setSalt( String salt ) {
+		this.salt = salt;
 	}
 
 	public String toString() {
