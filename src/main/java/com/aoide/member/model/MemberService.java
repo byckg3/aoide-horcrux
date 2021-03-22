@@ -26,9 +26,9 @@ public class MemberService
 		return dao.delete( id );
 	}
 	
-	public Optional< Member > findMemberProfile( Long id )
+	public Optional< Member > findMemberProfile( String account )
 	{
-		return dao.findByPrimaryKey( id );
+		return dao.find( account );
 	}
 	
 	public List< Member > getAllMemberProfiles()

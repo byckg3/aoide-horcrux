@@ -21,7 +21,6 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import com.aoide.member.model.JdbcMemberDAO;
 import com.aoide.member.model.MemberService;
 import com.aoide.member.model.Member;
 

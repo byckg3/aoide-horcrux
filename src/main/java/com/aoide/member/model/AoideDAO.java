@@ -8,6 +8,6 @@ public interface AoideDAO< T >
     public int create( T valueObject );
     public int update( T newValueObject );
     public int delete( Object pk );
-    public Optional< T > findByPrimaryKey( Object pk );
+    public Optional< T > find( Object key );
     public List< T > getAll();
 }

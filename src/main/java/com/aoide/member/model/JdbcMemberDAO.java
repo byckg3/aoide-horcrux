@@ -25,7 +25,7 @@ public class JdbcMemberDAO implements AoideDAO< Member >
 		"DELETE FROM members WHERE id = ?";
 		
 	private static final String GET_ONE_STMT = 
-		"SELECT * FROM members WHERE id = ?";
+		"SELECT * FROM members WHERE account = ?";
 		
 	private static final String GET_ALL_STMT = 
 		"SELECT * FROM members";
@@ -118,12 +118,12 @@ public class JdbcMemberDAO implements AoideDAO< Member >
 	}
 
 	@Override
-	public Optional< Member > findByPrimaryKey( Object pk )
+	public Optional< Member > find( Object key )
 	{
 		try( Connection conn = getConnection();
 			 PreparedStatement pstmt = conn.prepareStatement( GET_ONE_STMT ) )
 		{
-			pstmt.setObject( 1, pk );
+			pstmt.setObject( 1, key );
 
 			ResultSet rs = pstmt.executeQuery();
 			if ( rs.next() ) 
@@ -134,6 +134,7 @@ public class JdbcMemberDAO implements AoideDAO< Member >
 				vo.setPassword( rs.getString( "password" ) );
 				vo.setName( rs.getString( "name" ) );
 				vo.setEmail( rs.getString( "email" ) );
+				vo.setSalt( rs.getString( "salt" ) );
 
 				return Optional.of( vo );
 			}
@@ -177,9 +178,9 @@ public class JdbcMemberDAO implements AoideDAO< Member >
 		{
 			return true;
 		}
-		catch ( SQLException e )
+		catch ( Exception e )
 		{
-			e.printStackTrace();
+			System.out.println( e.getMessage() );
 		}
 		return false;
 	}
