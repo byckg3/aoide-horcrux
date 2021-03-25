@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+	
+<hibernate-configuration> 
+    <session-factory>
+        <property name="connection.url">jdbc:h2:tcp://localhost/W:/aoide-horcrux/test</property> 
+        <property name="connection.username">admin</property>
+        <property name="connection.password">admin</property>
+
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hbm2ddl.auto">validate</property>
+
+        <property name="c3p0.min_size">2</property> 
+        <property name="c3p0.max_size">5</property> 
+        <property name="c3p0.timeout">300</property> 
+        <property name="c3p0.max_statements">50</property> 
+        <property name="c3p0.idle_test_period">3000</property>
+
+        <mapping class = "com.aoide.member.model.Member"/> 
+    </session-factory> 
+
+</hibernate-configuration>

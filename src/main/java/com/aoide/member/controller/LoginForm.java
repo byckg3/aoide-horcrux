@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 public class LoginForm
 {
     @NotBlank( message = "account cannot be null or empty string" ) 		// validates that the property is not null or whitespace
-    @Size( min = 5, max = 14, message = "account size must be between 5 and 14" )	// validates that the annotated property value has a size between the attributes min and max
+    @Size( min = 8, max = 20, message = "account size must be between 8 and 20" )	// validates that the annotated property value has a size between the attributes min and max
 	private String account;
 
     @Size(min = 8, max = 16, message = "password size must be between 8 and 16" )

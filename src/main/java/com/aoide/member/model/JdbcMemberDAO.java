@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JdbcMemberDAO implements AoideDAO< Member >
+public class JdbcMemberDAO implements MemberDAO
 {  
 	private static final String INSERT_STMT = 
 		"INSERT INTO members( account, password, name, email ) VALUES ( ?, ?, ?, ? )";
@@ -42,19 +42,10 @@ public class JdbcMemberDAO implements AoideDAO< Member >
 	{
 		this.dataSource = dataSource;
 	}
-
-	public JdbcMemberDAO( String jdbcUrl, String userName, String password )
-	{
-		this.url = jdbcUrl;
-		this.user = userName;
-		this.password = password;
-	}
 	
 	@Override
-	public int create( Member vo ) 
+	public void save( Member vo ) 
 	{
-		int insertedRowCount = 0;
-		
 		try( Connection conn = getConnection();
 			 PreparedStatement pstmt = conn.prepareStatement( INSERT_STMT, Statement.RETURN_GENERATED_KEYS ) )
 		{
@@ -63,14 +54,13 @@ public class JdbcMemberDAO implements AoideDAO< Member >
 			pstmt.setString( 3, vo.getName() );
             pstmt.setString( 4, vo.getEmail() );
             
-			insertedRowCount = pstmt.executeUpdate();
+			pstmt.executeUpdate();
 
 			ResultSet keys = pstmt.getGeneratedKeys();
 			if ( keys.next() ) 
 			{
 				vo.setId( keys.getLong( 1 ) );
 			}
-			return insertedRowCount;
 		}
 		catch ( SQLException e ) {
             throw new RuntimeException( e );
@@ -100,14 +90,14 @@ public class JdbcMemberDAO implements AoideDAO< Member >
 	}
 
 	@Override
-	public int delete( Object pk )
+	public int delete( Long id )
 	{
 		int deletedRowCount = 0;
 		
 		try( Connection conn = getConnection();
 			 PreparedStatement pstmt = conn.prepareStatement( DELETE_STMT ) )
 		{
-			pstmt.setObject( 1, pk );
+			pstmt.setLong( 1, id );
 			deletedRowCount = pstmt.executeUpdate();
 
 			return deletedRowCount;
@@ -118,12 +108,12 @@ public class JdbcMemberDAO implements AoideDAO< Member >
 	}
 
 	@Override
-	public Optional< Member > find( Object key )
+	public Optional< Member > findByAccount( String account )
 	{
 		try( Connection conn = getConnection();
 			 PreparedStatement pstmt = conn.prepareStatement( GET_ONE_STMT ) )
 		{
-			pstmt.setObject( 1, key );
+			pstmt.setObject( 1, account );
 
 			ResultSet rs = pstmt.executeQuery();
 			if ( rs.next() ) 
@@ -174,7 +164,7 @@ public class JdbcMemberDAO implements AoideDAO< Member >
 
 	public boolean canConnect()
 	{
-		try( Connection conn = DriverManager.getConnection( url, user, password ) )
+		try( Connection conn = getConnection() )
 		{
 			return true;
 		}
@@ -185,20 +175,8 @@ public class JdbcMemberDAO implements AoideDAO< Member >
 		return false;
 	}
 
-	private Connection getConnection() throws SQLException
+	protected Connection getConnection() throws SQLException
 	{
-		try
-		{
-            if ( dataSource != null )
-			{
-				return dataSource.getConnection();
-			}
-			System.out.println( "no data source..." );
-
-			return DriverManager.getConnection( url, user, password );
-        }
-		catch ( SQLException e ) {
-			throw e;
-        }
+		return dataSource.getConnection();
 	}
 }

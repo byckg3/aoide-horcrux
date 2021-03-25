@@ -5,16 +5,16 @@ import java.util.Optional;
 
 public class MemberService
 {
-	private AoideDAO< Member > dao;
+	private MemberDAO dao;
 
-	public MemberService( AoideDAO< Member > dao )
+	public MemberService( MemberDAO dao )
 	{
 		this.dao = dao;
 	}
 	
 	public Member createMemberAccount( Member vo )
 	{
-		dao.create( vo );
+		dao.save( vo );
 		return vo;
 	}
 	
@@ -28,7 +28,7 @@ public class MemberService
 	
 	public Optional< Member > findMemberProfile( String account )
 	{
-		return dao.find( account );
+		return dao.findByAccount( account );
 	}
 	
 	public List< Member > getAllMemberProfiles()
