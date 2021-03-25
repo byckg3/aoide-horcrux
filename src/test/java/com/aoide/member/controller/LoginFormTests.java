@@ -28,7 +28,7 @@ public class LoginFormTests
     @BeforeEach
     void setUp() {
         form = new LoginForm();
-        form.setAccount( "test001" );
+        form.setAccount( "test0001" );
         form.setPassword( "password" );
     }
 
@@ -61,8 +61,9 @@ public class LoginFormTests
     {
         form.setPassword( "abcde" );
         constraintViolations = validator.validate( form );
-        assertEquals( 1, constraintViolations.size() );
         printError();
+        assertEquals( 1, constraintViolations.size() );
+        
     }
 
     private void printError()
