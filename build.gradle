@@ -15,10 +15,11 @@ dependencies {
     implementation "com.h2database:h2:1.4.200"
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
     
+    // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core
     implementation group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.0.0.Alpha7'
 
-    // https://mvnrepository.com/artifact/org.hibernate/hibernate-annotations
-    implementation 'org.hibernate:hibernate-annotations:3.5.6-Final'
+    // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-c3p0
+    implementation group: 'org.hibernate.orm', name: 'hibernate-c3p0', version: '6.0.0.Alpha7'
 
     // https://mvnrepository.com/artifact/javax.validation/validation-api
     implementation 'javax.validation:validation-api:2.0.1.Final'
@@ -28,7 +29,7 @@ dependencies {
     
     // https://mvnrepository.com/artifact/org.glassfish/javax.el
     runtimeOnly 'org.glassfish:javax.el:3.0.1-b12'
-
+    
     testImplementation "org.junit.jupiter:junit-jupiter:5.7.0"
 }
 
@@ -51,6 +52,9 @@ sourceSets {
     test {
         java {
             srcDirs = [ 'src/test/java' ]
+        }
+        resources {
+            srcDirs = [ "src/test/resources" ]
         }
     }
 }
