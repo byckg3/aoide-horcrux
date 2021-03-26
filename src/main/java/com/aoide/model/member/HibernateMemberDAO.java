@@ -1,4 +1,4 @@
-package com.aoide.member.model;
+package com.aoide.model.member;
 
 import java.util.List;
 import java.util.Optional;

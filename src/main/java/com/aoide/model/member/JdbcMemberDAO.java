@@ -1,4 +1,4 @@
-package com.aoide.member.model;
+package com.aoide.model.member;
 
 import java.sql.Connection;
 import java.sql.Statement;

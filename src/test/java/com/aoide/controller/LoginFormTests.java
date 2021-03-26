@@ -1,4 +1,4 @@
-package com.aoide.member.controller;
+package com.aoide.controller;
 
 import java.util.Set;
 

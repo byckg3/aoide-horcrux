@@ -1,4 +1,4 @@
-package com.aoide.member.controller;
+package com.aoide.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

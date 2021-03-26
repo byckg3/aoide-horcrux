@@ -10,7 +10,7 @@
         <property name="connection.username">admin</property>
         <property name="connection.password">admin</property>
 
-        <mapping class = "com.aoide.member.model.Member"/> 
+        <mapping class = "com.aoide.model.member.Member"/> 
     </session-factory> 
 
 </hibernate-configuration>

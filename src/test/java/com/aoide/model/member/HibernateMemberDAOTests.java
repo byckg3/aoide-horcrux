@@ -1,4 +1,4 @@
-package com.aoide.member.model;
+package com.aoide.model.member;
 
 class HibernateMemberDAOTests extends AbstractMemberDAOTests
 {

@@ -15,10 +15,10 @@ import javax.sql.DataSource;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
-import com.aoide.member.model.MemberDAO;
-import com.aoide.member.model.JdbcMemberDAO;
-import com.aoide.member.model.Member;
-import com.aoide.member.model.MemberService;
+import com.aoide.model.member.MemberDAO;
+import com.aoide.model.member.JdbcMemberDAO;
+import com.aoide.model.member.Member;
+import com.aoide.model.member.MemberService;
 
 @WebListener
 public class AoideServletContextListener implements ServletContextListener

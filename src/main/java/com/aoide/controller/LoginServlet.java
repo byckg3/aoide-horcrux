@@ -1,4 +1,4 @@
-package com.aoide.member.controller;
+package com.aoide.controller;
 
 import java.io.IOException;
 
@@ -21,8 +21,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import com.aoide.member.model.MemberService;
-import com.aoide.member.model.Member;
+import com.aoide.model.member.MemberService;
+import com.aoide.model.member.Member;
 
 
 @WebServlet( "/login" )
