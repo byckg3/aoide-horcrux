@@ -1,0 +1,23 @@
+<Configuration monitorInterval = "60">
+    <Appenders>
+        <Console name = "console" target = "SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
+            </PatternLayout>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name = "org.hibernate.SQL" level = "info" additivity = "false">
+            <AppenderRef ref = "console"/>
+        </Logger>
+        <Logger name = "org.hibernate.type.descriptor.sql" level = "debug" additivity = "false">
+            <AppenderRef ref = "console"/>
+        </Logger>
+        <!-- <Logger name = "org.hibernate" level = "warn" additivity = "false">
+            <AppenderRef ref = "console"/>
+        </Logger> -->
+        <Root level = "info">
+            <AppenderRef ref = "console"/>
+        </Root>
+    </Loggers>
+</Configuration>

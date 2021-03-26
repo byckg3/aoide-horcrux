@@ -54,7 +54,7 @@ abstract class AbstractMemberDAOTests
     {
         String newName = "Nancy";
         testVO.setName( newName );
-
+        
         assertEquals( 1, memberDao.update( testVO ) );
     }
 
