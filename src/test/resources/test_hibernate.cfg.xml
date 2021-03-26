@@ -19,7 +19,7 @@
         <property name="c3p0.max_statements">50</property> 
         <property name="c3p0.idle_test_period">3000</property>
 
-        <mapping class = "com.aoide.member.model.Member"/> 
+        <mapping class = "com.aoide.model.member.Member"/> 
     </session-factory> 
 
 </hibernate-configuration>
