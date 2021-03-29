@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import util.DataGenerator;
+import com.aoide.util.DataGenerator;
 
 @TestInstance( Lifecycle.PER_CLASS ) // a new test instance will be created once per test class
 @TestMethodOrder( MethodOrderer.OrderAnnotation.class )
