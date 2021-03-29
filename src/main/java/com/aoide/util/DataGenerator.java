@@ -31,7 +31,7 @@ public class DataGenerator
         return sdf.format( new Date() );
     }
 
-    public static String generateRandomString( int length )
+    public static String generateBase64RandomString( int length )
     {
         if ( length < 0 ) {
             throw new RuntimeException( "length must be > 0" );

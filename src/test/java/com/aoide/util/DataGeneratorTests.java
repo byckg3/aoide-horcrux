@@ -14,11 +14,11 @@ public class DataGeneratorTests
         
     }
 
-    @ParameterizedTest( name = "@MethodSource#{index} : test_generateRandomString( {arguments} )" )
+    @ParameterizedTest( name = "@MethodSource#{index} : test_generateBase64RandomString( {arguments} )" )
     @MethodSource( value = "com.aoide.util.DataGenerator#generateRandomIntStream" )
-    void test_generateRandomString( Integer length ) throws Exception
+    void test_generateBase64RandomString( Integer length ) throws Exception
     {
-        String randomString = DataGenerator.generateRandomString( length );
+        String randomString = DataGenerator.generateBase64RandomString( length );
         assertEquals( length, randomString.length() );
     }
 }
