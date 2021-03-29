@@ -28,9 +28,9 @@ abstract class AbstractMemberDAOTests
     {
         testVO = new Member();
 		testVO.setAccount( "test_" + DataGenerator.generateTimestamp() );
-		testVO.setPassword( "abcdefgh" );
-		testVO.setName( "Curry" );
-		testVO.setEmail( "curry02@email.com" );
+		testVO.setPassword( DataGenerator.generateBase64RandomString( 10 ) );
+		testVO.setName(  DataGenerator.generateBase64RandomString( 5 ) );
+		testVO.setEmail( DataGenerator.generateBase64RandomString( 7 ) + "@email.com" );
     }
 
     @BeforeAll

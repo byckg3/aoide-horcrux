@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class MemberTests
+public class MemberServiceTests
 {
     private static Validator validator;
     private Set< ConstraintViolation< Member > > constraintViolations;
@@ -34,11 +34,11 @@ public class MemberTests
         member.setEmail( "alex@gmail.com" );
     }
 
-//     @Test
-//     public void test_validMemberInfo()
-//     {
+    @Test
+    public void test_createMemberAccount()
+    {
         
-//     }
+    }
 
 //     @Test
 //     public void test_accountCannotBeNull()

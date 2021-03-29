@@ -16,7 +16,7 @@
         <!-- <Logger name = "org.hibernate" level = "warn" additivity = "false">
             <AppenderRef ref = "console"/>
         </Logger> -->
-        <Root level = "info">
+        <Root level = "warn">
             <AppenderRef ref = "console"/>
         </Root>
     </Loggers>
